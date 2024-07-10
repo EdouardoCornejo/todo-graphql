@@ -1,0 +1,69 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Todo {
+  id: Int!
+  description: String!
+  done: Boolean!
+}
+
+"""Aggregations for todos"""
+type AggregationsType {
+  """Total number of todos"""
+  total: Int!
+
+  """Number of pending todos"""
+  pendding: Int!
+
+  """Number of completed todos"""
+  completed: Int!
+
+  """Total number of todos"""
+  totalTodosCompleted: Int! @deprecated(reason: "Use total field instead")
+}
+
+type Query {
+  """Returns a simple hello world message"""
+  getHello: String!
+
+  """Returns a random number"""
+  RandomNumber: Float!
+  getNumberFromZeroTo: Int!
+
+  """Returns a random number from 0 to the specified number"""
+  getNumberFromZeroToAny(to: Int): Int!
+
+  """Get all todos"""
+  todos(status: Boolean): [Todo!]!
+
+  """Get a todo by ID"""
+  todo(id: Int!): Todo!
+  totalTodos: Int!
+  completedTodos: Int!
+  pendingTodos: Int!
+  aggregations: AggregationsType!
+}
+
+type Mutation {
+  """Create a new todo"""
+  createTodo(CreateTodoInput: CreateTodoInput!): Todo!
+
+  """Update a todo"""
+  updateTodo(updateTodoInput: UpdateTodoInput!): Todo!
+  removeTodo(id: Int!): Boolean!
+}
+
+input CreateTodoInput {
+  """The description of the todo"""
+  description: String!
+}
+
+input UpdateTodoInput {
+  """The ID of the todo"""
+  id: Int!
+
+  """The description of the todo"""
+  description: String
+  done: Boolean
+}
