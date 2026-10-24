@@ -42,7 +42,7 @@ API **GraphQL** de tareas construida con **NestJS** y **Apollo Server** en modo 
 - **Validación de inputs** con `class-validator` (descripción entre 3 y 20 caracteres, `id` entero ≥ 1).
 - **Errores tipados**: `NotFoundException` cuando el `id` no existe.
 - **Queries de ejemplo** (`hello-world`) que devuelven strings, `Float` e `Int`, con argumentos opcionales y valor por defecto.
-- **Esquema autogenerado** en `src/schema.gql` y **Apollo Sandbox** como interfaz de exploración.
+- **Esquema autogenerado y autodocumentado** en `src/schema.gql`: tipos, campos, argumentos y operaciones llevan su `description`, visible en **Apollo Sandbox** (servido solo fuera de producción).
 
 ---
 
@@ -59,7 +59,7 @@ npm install
 npm run start:dev
 ```
 
-La API escucha en el puerto **4000**. Abre `http://localhost:4000/graphql` para usar Apollo Sandbox.
+La API escucha en el puerto **4000**. Abre `http://localhost:4000/graphql` para usar Apollo Sandbox, que solo se sirve cuando `NODE_ENV` es distinto de `production`.
 
 > Al estar en memoria, los cambios se pierden al reiniciar el servidor.
 
@@ -139,7 +139,7 @@ mutation {
 ### 1. `main.ts` y `app.module.ts`
 
 - `main.ts` habilita CORS, registra un `ValidationPipe` global (`whitelist`, `forbidNonWhitelisted`, `transform`) y escucha en el puerto `4000`.
-- `AppModule` configura `GraphQLModule.forRoot` con `ApolloDriver`, `autoSchemaFile: src/schema.gql`, el _playground_ clásico desactivado y el plugin `ApolloServerPluginLandingPageLocalDefault` (Apollo Sandbox).
+- `AppModule` configura `GraphQLModule.forRoot` con `ApolloDriver`, `autoSchemaFile: src/schema.gql`, el _playground_ clásico desactivado y el plugin `ApolloServerPluginLandingPageLocalDefault` (Apollo Sandbox) cuando `NODE_ENV` no es `production`.
 
 ### 2. Módulo `todo`
 
@@ -212,7 +212,7 @@ todo-graphql/
 
 ## Personalización
 
-El proyecto no usa variables de entorno. Puntos fáciles de ajustar:
+El proyecto no usa variables de entorno propias (solo `NODE_ENV`: con `production` no se sirve Apollo Sandbox). Puntos fáciles de ajustar:
 
 | Dónde                     | Qué                                      | Por defecto            |
 | ------------------------- | ---------------------------------------- | ---------------------- |

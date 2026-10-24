@@ -10,7 +10,9 @@ import {
   MinLength,
 } from 'class-validator';
 
-@InputType()
+@InputType({
+  description: 'Fields to update on a todo; omitted fields stay unchanged.',
+})
 export class UpdateTodoInput {
   @Field(() => Int, {
     description: 'The ID of the todo',
@@ -20,7 +22,7 @@ export class UpdateTodoInput {
   id: number;
 
   @Field(() => String, {
-    description: 'The description of the todo',
+    description: 'New description (3 to 20 characters).',
     nullable: true,
   })
   @IsString()
@@ -32,6 +34,7 @@ export class UpdateTodoInput {
 
   @Field(() => Boolean, {
     nullable: true,
+    description: 'Mark the todo as completed or pending.',
   })
   @IsOptional()
   @IsBoolean()

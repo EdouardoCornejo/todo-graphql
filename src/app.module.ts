@@ -11,10 +11,13 @@ import { TodoModule } from './todo/todo.module';
   imports: [
     GraphQLModule.forRoot({
       driver: ApolloDriver,
-      // playground: false,
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       playground: false,
-      plugins: [ApolloServerPluginLandingPageLocalDefault()],
+      // Apollo Sandbox is a development tool: only served outside production.
+      plugins:
+        process.env.NODE_ENV === 'production'
+          ? []
+          : [ApolloServerPluginLandingPageLocalDefault()],
     }),
     HelloWorldModule,
     TodoModule,

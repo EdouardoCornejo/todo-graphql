@@ -2,9 +2,15 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+"""A task stored in memory."""
 type Todo {
+  """Numeric identifier, assigned incrementally."""
   id: Int!
+
+  """What has to be done."""
   description: String!
+
+  """Whether the task is completed."""
   done: Boolean!
 }
 
@@ -29,19 +35,35 @@ type Query {
 
   """Returns a random number"""
   RandomNumber: Float!
+
+  """Returns a random integer from 0 to 9"""
   getNumberFromZeroTo: Int!
 
   """Returns a random number from 0 to the specified number"""
-  getNumberFromZeroToAny(to: Int): Int!
+  getNumberFromZeroToAny(
+    """Exclusive upper bound; defaults to 6"""
+    to: Int
+  ): Int!
 
-  """Get all todos"""
-  todos(status: Boolean): [Todo!]!
+  """Get all todos, optionally filtered by status."""
+  todos(
+    """true returns completed todos, false pending ones; omit it for all."""
+    status: Boolean
+  ): [Todo!]!
 
   """Get a todo by ID"""
   todo(id: Int!): Todo!
+
+  """Total number of todos."""
   totalTodos: Int!
+
+  """Number of completed todos."""
   completedTodos: Int!
+
+  """Number of pending todos."""
   pendingTodos: Int!
+
+  """Total, pending and completed counts in a single query."""
   aggregations: AggregationsType!
 }
 
@@ -51,19 +73,25 @@ type Mutation {
 
   """Update a todo"""
   updateTodo(updateTodoInput: UpdateTodoInput!): Todo!
+
+  """Delete a todo by ID; returns true when it existed."""
   removeTodo(id: Int!): Boolean!
 }
 
+"""Data to create a todo."""
 input CreateTodoInput {
-  """The description of the todo"""
+  """The description of the todo (3 to 20 characters)."""
   description: String!
 }
 
+"""Fields to update on a todo; omitted fields stay unchanged."""
 input UpdateTodoInput {
   """The ID of the todo"""
   id: Int!
 
-  """The description of the todo"""
+  """New description (3 to 20 characters)."""
   description: String
+
+  """Mark the todo as completed or pending."""
   done: Boolean
 }

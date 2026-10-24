@@ -12,7 +12,7 @@ export class TodoResolver {
 
   @Query(() => [Todo], {
     name: 'todos',
-    description: 'Get all todos',
+    description: 'Get all todos, optionally filtered by status.',
   })
   findAll(@Args() statusArgs: StatusArgs): Todo[] {
     return this.todoService.findAll(statusArgs);
@@ -26,21 +26,32 @@ export class TodoResolver {
     return this.todoService.findOne(id);
   }
 
-  @Query(() => Int, { name: 'totalTodos' })
+  @Query(() => Int, {
+    name: 'totalTodos',
+    description: 'Total number of todos.',
+  })
   totalTodos(): number {
     return this.todoService.totalTodos();
   }
 
-  @Query(() => Int, { name: 'completedTodos' })
+  @Query(() => Int, {
+    name: 'completedTodos',
+    description: 'Number of completed todos.',
+  })
   completedTodos(): number {
     return this.todoService.completedTodos();
   }
-  @Query(() => Int, { name: 'pendingTodos' })
+  @Query(() => Int, {
+    name: 'pendingTodos',
+    description: 'Number of pending todos.',
+  })
   pendingTodos(): number {
     return this.todoService.pendingTodos();
   }
 
-  @Query(() => AggregationsType)
+  @Query(() => AggregationsType, {
+    description: 'Total, pending and completed counts in a single query.',
+  })
   aggregations(): AggregationsType {
     return {
       completed: this.todoService.completedTodos(),
@@ -67,7 +78,9 @@ export class TodoResolver {
     return todo;
   }
 
-  @Mutation(() => Boolean)
+  @Mutation(() => Boolean, {
+    description: 'Delete a todo by ID; returns true when it existed.',
+  })
   removeTodo(@Args('id', { type: () => Int }) id: number) {
     return this.todoService.delete(id);
   }
