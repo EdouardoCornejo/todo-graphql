@@ -139,7 +139,7 @@ mutation {
 ### 1. `main.ts` y `app.module.ts`
 
 - `main.ts` habilita CORS, registra un `ValidationPipe` global (`whitelist`, `forbidNonWhitelisted`, `transform`) y escucha en el puerto `4000`.
-- `AppModule` configura `GraphQLModule.forRoot` con `ApolloDriver`, `autoSchemaFile: src/schema.gql`, el _playground_ clásico desactivado y el plugin `ApolloServerPluginLandingPageLocalDefault` (Apollo Sandbox) cuando `NODE_ENV` no es `production`.
+- `AppModule` configura `GraphQLModule.forRoot` con `ApolloDriver`, `autoSchemaFile: src/schema.gql`, el _playground_ clásico desactivado y el plugin `ApolloServerPluginLandingPageLocalDefault` (Apollo Sandbox) cuando `NODE_ENV` no es `production`. Su `formatError` asigna el código `NOT_FOUND` a los errores 404 (Nest solo traduce 400, 401 y 403 a códigos GraphQL; sin él, `todo(id: 99)` respondería `INTERNAL_SERVER_ERROR`).
 
 ### 2. Módulo `todo`
 
