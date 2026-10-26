@@ -91,7 +91,7 @@ La API escucha en el puerto **4000**. Abre `http://localhost:4000/graphql` para 
 | `totalTodos`     | Query    | —                                            | `Int!`             |
 | `completedTodos` | Query    | —                                            | `Int!`             |
 | `pendingTodos`   | Query    | —                                            | `Int!`             |
-| `aggregations`   | Query    | —                                            | `AggregationsType!` (`total`, `pendding`, `completed`, `totalTodosCompleted` deprecado) |
+| `aggregations`   | Query    | —                                            | `AggregationsType!` (`total`, `pending`, `completed`; deprecados: `pendding` → `pending`, `totalTodosCompleted` → `completed`) |
 | `createTodo`     | Mutation | `CreateTodoInput: { description }`           | `Todo!`            |
 | `updateTodo`     | Mutation | `updateTodoInput: { id, description?, done? }` | `Todo!`          |
 | `removeTodo`     | Mutation | `id: Int!`                                   | `Boolean!`         |
@@ -117,7 +117,7 @@ query {
   aggregations {
     total
     completed
-    pendding
+    pending
   }
 }
 ```
@@ -144,7 +144,7 @@ mutation {
 ### 2. Módulo `todo`
 
 - `Todo` (`entity/todo.entity.ts`) es un `@ObjectType` con `done` a `false` por defecto.
-- `TodoResolver` expone las queries y mutations y delega en `TodoService`; `aggregations` compone el `AggregationsType` a partir de los contadores del servicio.
+- `TodoResolver` expone las queries y mutations y delega en `TodoService`; `aggregations` compone el `AggregationsType` a partir de los contadores del servicio. Sus campos deprecados se mantienen para no romper clientes: `pendding` (errata, devuelve lo mismo que `pending`) y `totalTodosCompleted` (devuelve lo mismo que `completed`).
 - `TodoService` guarda las tareas en un array privado:
   - `findAll` filtra por `done === status` cuando se pasa `status`.
   - `findOne` lanza `NotFoundException` si no encuentra el `id`.

@@ -20,13 +20,16 @@ type AggregationsType {
   total: Int!
 
   """Number of pending todos"""
-  pendding: Int!
+  pending: Int!
+
+  """Number of pending todos"""
+  pendding: Int! @deprecated(reason: "Misspelled: use pending instead")
 
   """Number of completed todos"""
   completed: Int!
 
-  """Total number of todos"""
-  totalTodosCompleted: Int! @deprecated(reason: "Use total field instead")
+  """Number of completed todos"""
+  totalTodosCompleted: Int! @deprecated(reason: "Use completed instead")
 }
 
 type Query {

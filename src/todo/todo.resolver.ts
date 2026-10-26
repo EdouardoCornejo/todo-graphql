@@ -53,11 +53,15 @@ export class TodoResolver {
     description: 'Total, pending and completed counts in a single query.',
   })
   aggregations(): AggregationsType {
+    const completed = this.todoService.completedTodos();
+    const pending = this.todoService.pendingTodos();
+
     return {
-      completed: this.todoService.completedTodos(),
-      pendding: this.todoService.pendingTodos(),
+      completed,
+      pending,
+      pendding: pending,
       total: this.todoService.totalTodos(),
-      totalTodosCompleted: this.todoService.completedTodos(),
+      totalTodosCompleted: completed,
     };
   }
 

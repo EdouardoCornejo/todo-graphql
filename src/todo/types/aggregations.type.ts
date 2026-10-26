@@ -6,14 +6,20 @@ export class AggregationsType {
   total: number;
 
   @Field(() => Int, { description: 'Number of pending todos' })
+  pending: number;
+
+  @Field(() => Int, {
+    description: 'Number of pending todos',
+    deprecationReason: 'Misspelled: use pending instead',
+  })
   pendding: number;
 
   @Field(() => Int, { description: 'Number of completed todos' })
   completed: number;
 
   @Field(() => Int, {
-    description: 'Total number of todos',
-    deprecationReason: 'Use total field instead',
+    description: 'Number of completed todos',
+    deprecationReason: 'Use completed instead',
   })
   totalTodosCompleted: number;
 }
